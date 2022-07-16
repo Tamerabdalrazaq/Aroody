@@ -145,10 +145,3 @@ class Jumla():
         self.tone = res
     def __repr__(self):
         return self.text + '\n' + ''.join([str(i) for i in self.tone])
-
-
-text = 'تَذَكَّرتُ لَيلَى وَسِّنِينَ لخَوَالِيَا'
-print(text)
-k = Jumla(text)
-print(k)
-# text = u'فَعُولُنْ مَفَاعِيلُنْ فَعُوْلُنْ مَفَاعِلُنْ'
