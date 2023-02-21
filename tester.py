@@ -16,3 +16,4 @@ in_out = [
 def test():
     for _in, _out in in_out:
         assert(Jumla(_in).tone == _out)
+

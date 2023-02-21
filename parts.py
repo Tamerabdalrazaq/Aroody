@@ -5,6 +5,7 @@ from pyarabic.araby import is_tanwin, is_weak
 SHADDA = chr(int('0x651', 16))
 SUKOON = chr(int('0x652', 16))
 
+
 HUROOF = {
     'ALEF': chr(int('0x627', 16)),
     'MADDA': chr(int('0x622', 16)),

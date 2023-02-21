@@ -1,4 +1,4 @@
-TAFAEELAT = []
+TAFAEELAT = [] 
 BUHOOR = []
 class Tafaeela:
     def __init__(self, name, main_beat, variants) -> None:
