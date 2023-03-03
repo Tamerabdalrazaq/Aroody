@@ -1,4 +1,4 @@
-from buhoor import get_composition
+from analysis import get_composition
 from parts import Jumla
 
 
@@ -8,12 +8,11 @@ in_out = [
     ['ذُو العَقلِ يَشقَى فِي النَعِيمِ بِعَقلِهِي', [1, 0, 1, 0, 1, 1, 0, 1,
                                                      0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0]],
     ['قاضي المَدِينَة', [1, 0, 1, 0, 1, 1, 0, 1, 0]],
-    ['لَو اتَّخَذتَ', [1,1,0,1,1,0,1]],
-    ['شامِيَّةٌ', [1,0,1,0,1,1,0]]
+    ['لَو اتَّخَذتَ', [1, 1, 0, 1, 1, 0, 1]],
+    ['شامِيَّةٌ', [1, 0, 1, 0, 1, 1, 0]]
 ]
 
 
 def test():
     for _in, _out in in_out:
-        assert(Jumla(_in).tone == _out)
-
+        assert (Jumla(_in).tone == _out)

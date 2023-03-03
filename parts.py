@@ -33,7 +33,8 @@ HUROOF_WAY = [
 WEAKS_HARAKAT = {
     'ي': chr(int('0x650', 16)),
     'ا': chr(int('0x64e', 16)),
-    'و': chr(int('0x64f', 16))
+    'و': chr(int('0x64f', 16)),
+    'ى': chr(int('0x64e', 16)),
 }
 
 harakat_repr = {
@@ -67,8 +68,8 @@ def handle_cutting_wasl(curr, prev):
     assert (type(prev_huroof[-1]) == type(prev_huroof[-2])
             == type(curr_huroof[0]) == Harf)
     first_harf, last_harf, penultimate_harf = curr_huroof[0], \
-    prev_huroof[-1], prev_huroof[-2]
-    assert(first_harf.harf == HUROOF['HAMZAT_WASL'])
+        prev_huroof[-1], prev_huroof[-2]
+    assert (first_harf.harf == HUROOF['HAMZAT_WASL'])
     curr.cut_hamzat_wasl()
     if last_harf.haraka.sukoon:
         penult_haraka = penultimate_harf.haraka.haraka
@@ -81,8 +82,8 @@ def handle_cutting_wasl(curr, prev):
 def test_objects_correctness(objects):
     for i, obj in enumerate(objects):
         assert (type(obj) == Haraka or type(obj) == Harf)
-        assert(i == len(objects) - 1 or
-               type(objects[i+1]) == (Haraka if type(obj) == Harf else Harf))
+        assert (i == len(objects) - 1 or
+                type(objects[i+1]) == (Haraka if type(obj) == Harf else Harf))
 
 
 def untie_shadda(i, res, objects):
@@ -250,7 +251,7 @@ class Kalema:
         self.objects = updated_objects
 
     def cut_hamzat_wasl(self):
-        assert(self.objects[0].harf == HUROOF['HAMZAT_WASL'])
+        assert (self.objects[0].harf == HUROOF['HAMZAT_WASL'])
         self.objects = self.objects[2:]
 
     def trim_harakat(self):

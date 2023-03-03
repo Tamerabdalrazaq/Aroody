@@ -1,0 +1,1 @@
+{"taweel": ["0"], "baseet": ["0"], "kamel": ["0"], "wafer": ["0"], "rujz": ["0"], "hazaj": ["1", "1", "0", "1", "0"], "mutaqareb": ["0"], "mutadarak": ["0"]}
