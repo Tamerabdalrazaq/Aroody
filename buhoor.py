@@ -3,9 +3,9 @@ BUHOOR = []
 
 
 class Tafaeela:
-    def __init__(self, _name, _main_beat, variants) -> None:
-        self.name123 = _name
-        self.main_beat = _main_beat
+    def __init__(self, name, main_beat, variants) -> None:
+        self.name = name
+        self.main_beat = main_beat
         self.variants = variants
 
     def __contains__(self, variant):
@@ -34,7 +34,6 @@ class Bahr:
             if tafaaeel[i] != self.tafaaeel[i]:
                 return False
         return partial or len(tafaaeel) == len(self.tafaaeel)
-
 
 
 faaolon = Tafaeela('فعولن', '11010', ['11010', '1101', '1010', '101', '110'])
