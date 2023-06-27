@@ -4,6 +4,6 @@ from tester import test
 
 # test = Jumla('ذُو العَقلِ يَشقَى فِي النَعيمِ بِعَقلِهِي')
 test()
-jumla = Jumla("عَذْلُ العَواذِلِ حَوْلَ قَلبي التائِهِي")
+jumla = Jumla("دَمْعٌ جرَى فقضَى في الرَّبْعِ ما وجَبَا")
 print(jumla.tone)
 print(get_composition(jumla.tone))
