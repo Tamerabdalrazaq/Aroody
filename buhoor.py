@@ -23,9 +23,14 @@ class Bahr:
     def __init__(self, name, tafaaeel) -> None:
         self.name = name
         self.tafaaeel = tafaaeel
+        beats_str = ''
+        for tafaeela in tafaaeel:
+            beats_str += tafaeela.main_beat
+        self.beats_str = beats_str
+        self.length = len(beats_str)
 
     def __repr__(self) -> str:
-        return self.name[::-1]
+        return self.name
 
     def is_member(self, tafaaeel, partial=False):
         if len(tafaaeel) > len(self.tafaaeel):
@@ -50,6 +55,7 @@ mufaaalatun = Tafaeela('مفاعلتن', '1101110', [
 TAFAEELAT.extend([faaolon, faaolon_wafer, mafaaelun, mustafaelun,
                   faaelun, mutafaaelun, mufaaalatun])
 
+test = Bahr('test', (faaolon,))
 taweel = Bahr('taweel', (faaolon, mafaaelun, faaolon, mafaaelun))
 baseet = Bahr('baseet', (mustafaelun, faaelun, mustafaelun, faaelun))
 kamel = Bahr('kamel', (mutafaaelun, mutafaaelun, mutafaaelun))
@@ -59,5 +65,6 @@ rujz = Bahr('rujz', (mustafaelun, mustafaelun, mustafaelun))
 hazaj = Bahr('hazaj', (mafaaelun, mafaaelun))
 mutadarak = Bahr('mutadarak', (faaelun, faaelun, faaelun, faaelun))
 
-BUHOOR.extend([taweel, baseet, kamel, wafer,
+# BUHOOR.extend([test])
+BUHOOR.extend([test, taweel, baseet, kamel, wafer,
               rujz, hazaj, mutaqareb, mutadarak])

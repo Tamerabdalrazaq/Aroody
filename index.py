@@ -1,9 +1,10 @@
-from analysis import get_composition
+from analysis import analyze_tone
 from parts import Jumla
 from tester import test
 
 # test = Jumla('ذُو العَقلِ يَشقَى فِي النَعيمِ بِعَقلِهِي')
 test()
-jumla = Jumla("دَمْعٌ جرَى فقضَى في الرَّبْعِ ما وجَبَا")
+jumla = Jumla("قِفَا نَبْكِ مِنْ ذِكْرَى حَبِيْبٍ وَمَنْزِلِ")
 print(jumla.tone)
-print(get_composition(jumla.tone))
+print(analyze_tone(jumla.tone)[0])
+print(analyze_tone(jumla.tone)[1])

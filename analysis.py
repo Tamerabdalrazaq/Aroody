@@ -37,6 +37,13 @@ def find_compatible_bahr(tafaaeel, partial=False):
     return compatible
 
 
+def analyze_tone(beats):
+    beats_str = ''.join([str(i) for i in beats])
+    compositions = get_composition(beats)
+    tashabuh = find_nesab_tashabuh(beats_str)
+    return ((compositions, tashabuh))
+
+
 def get_composition(beats, rec=False):
     compositions = []
     beats_str = ''.join([str(i) for i in beats])
@@ -89,3 +96,35 @@ def generate_tone_approximations(beats, displacement):
             clone[k] = 1
         beats_approximations.append(clone)
     return beats_approximations
+
+
+def find_nesab_tashabuh(alshabeeh):
+    def tashabuh_rec(shabeeh, bahr, shabeeh_pos, asl_pos, ekhtelaf):
+        asl = bahr.beats_str
+        if (ekhtelaf >= buhoor_tashabuh_dict[bahr]):
+            return
+        if shabeeh_pos == len(shabeeh):
+            if (ekhtelaf < buhoor_tashabuh_dict[bahr]):
+                buhoor_tashabuh_dict[bahr] = ekhtelaf
+            return
+
+        if asl_pos >= len(asl):
+            tashabuh_rec(shabeeh, bahr, shabeeh_pos +
+                         1, asl_pos + 1, ekhtelaf + 1)
+        elif shabeeh[shabeeh_pos] == asl[asl_pos]:
+            tashabuh_rec(shabeeh, bahr, shabeeh_pos +
+                         1, asl_pos + 1, ekhtelaf)
+        else:
+            tashabuh_rec(shabeeh, bahr, shabeeh_pos + 1,
+                         asl_pos + 1, ekhtelaf + 1)  # Qalb
+            tashabuh_rec(shabeeh, bahr, shabeeh_pos +
+                         1, asl_pos, ekhtelaf + 1)  # Zeyada
+            tashabuh_rec(shabeeh, bahr, shabeeh_pos,
+                         asl_pos + 1, ekhtelaf + 1)  # Hathf
+
+    buhoor_beats_str = [(bahr, bahr.beats_str) for bahr in BUHOOR]
+    buhoor_tashabuh_dict = {bahr: float('inf') for bahr in BUHOOR}
+    for pair in buhoor_beats_str:
+        bahr = pair[0]
+        tashabuh_rec(alshabeeh, bahr, 0, 0, 0)
+    return {bahr: round(100 - (buhoor_tashabuh_dict[bahr]/bahr.length*100), 2) for bahr in BUHOOR}
