@@ -2,9 +2,10 @@ from analysis import analyze_tone
 from parts import Jumla
 from tester import test
 
-# test = Jumla('ذُو العَقلِ يَشقَى فِي النَعيمِ بِعَقلِهِي')
 test()
-jumla = Jumla("قِفَا نَبْكِ مِنْ ذِكْرَى حَبِيْبٍ وَمَنْزِلِ")
+jumla = Jumla("لئِن مُنيت بنا عن غِبِّ مَعرَكَةٍ")
 print(jumla.tone)
-print(analyze_tone(jumla.tone)[0])
-print(analyze_tone(jumla.tone)[1])
+determenistic, statistic = analyze_tone(jumla.tone)
+print(determenistic)
+print(statistic)
+print(max(statistic, key=statistic.get))

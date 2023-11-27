@@ -99,7 +99,11 @@ def generate_tone_approximations(beats, displacement):
 
 
 def find_nesab_tashabuh(alshabeeh):
+    count = 0
+
     def tashabuh_rec(shabeeh, bahr, shabeeh_pos, asl_pos, ekhtelaf):
+        nonlocal count  # Use nonlocal to refer to the count variable in the outer function
+        count = count + 1
         asl = bahr.beats_str
         if (ekhtelaf >= buhoor_tashabuh_dict[bahr]):
             return
@@ -121,10 +125,10 @@ def find_nesab_tashabuh(alshabeeh):
                          1, asl_pos, ekhtelaf + 1)  # Zeyada
             tashabuh_rec(shabeeh, bahr, shabeeh_pos,
                          asl_pos + 1, ekhtelaf + 1)  # Hathf
-
     buhoor_beats_str = [(bahr, bahr.beats_str) for bahr in BUHOOR]
     buhoor_tashabuh_dict = {bahr: float('inf') for bahr in BUHOOR}
     for pair in buhoor_beats_str:
         bahr = pair[0]
         tashabuh_rec(alshabeeh, bahr, 0, 0, 0)
-    return {bahr: round(100 - (buhoor_tashabuh_dict[bahr]/bahr.length*100), 2) for bahr in BUHOOR}
+    print(count)
+    return {bahr: round(100 - (buhoor_tashabuh_dict[bahr]/min(len(alshabeeh), bahr.length)*100), 2) for bahr in BUHOOR}
