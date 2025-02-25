@@ -66,5 +66,5 @@ hazaj = Bahr('hazaj', (mafaaelun, mafaaelun))
 mutadarak = Bahr('mutadarak', (faaelun, faaelun, faaelun, faaelun))
 
 # BUHOOR.extend([test])
-BUHOOR.extend([test, taweel, baseet, kamel, wafer,
+BUHOOR.extend([taweel, baseet, kamel, wafer,
               rujz, hazaj, mutaqareb, mutadarak])

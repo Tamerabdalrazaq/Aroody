@@ -90,8 +90,7 @@ def untie_shadda(i, res, objects):
     res.pop()
     mashdood_index = i-1
     mashdood_haraka_index = i+1
-    assert type(objects[mashdood_index]) == Harf
-    assert type(objects[mashdood_haraka_index]) == Haraka
+    assert type(objects[mashdood_haraka_index]) == Haraka and  type(objects[mashdood_index]) == Harf,  "ضع الحركة بعد الشدّة لا قبلها"
     sukoon = Haraka(SUKOON)
     saken = Harf(objects[mashdood_index].harf, sukoon)
     mutaharrek = Harf(
@@ -165,6 +164,8 @@ class Kalema:
                 res.append(Harf(i))
             elif i in araby.TASHKEEL:
                 res.append(Haraka(i))
+            else:
+                raise Exception("Invalid Input")
         return res
 
     def arood_process(self):
