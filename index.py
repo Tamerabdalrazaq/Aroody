@@ -1,8 +1,11 @@
 import tkinter as tk
+import helpers
 from tkinter import scrolledtext
 from analysis import analyze_tone
 from parts import Jumla
 from tester import test
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 # Initialize the tester
 test()
@@ -43,7 +46,15 @@ def main_gui():
     # Create a ScrolledText widget to show the results
     output_area = scrolledtext.ScrolledText(root, height=10, width=70)
     output_area.pack(pady=10)
-    
+
+    fig = Figure(figsize=(5, 3), dpi=100)
+    ax = fig.add_subplot(111)
+
+
+    # Embed the Matplotlib figure in Tkinter
+    canvas = FigureCanvasTkAgg(fig, master=root)
+    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+    canvas.draw()
     # Function to handle button click
     def on_button_click():
         try:
@@ -58,19 +69,31 @@ def main_gui():
             output_area.delete(1.0, tk.END)  # Clear the output area
             
             output_area.insert(tk.END, printa("الإيقاع:") + "\n")
-            output_area.insert(tk.END, printa(jumla.tone) + "\n")
+            output_area.insert(tk.END, printa(helpers.beats_to_arood_writing(jumla.tone)) + "\n")
             
             determenistic, statistic = analyze_tone(jumla.tone)
             
             output_area.insert(tk.END, printa("الوزن المحدد:") + "\n")
             output_area.insert(tk.END, printa(determenistic) + "\n")
             
-            output_area.insert(tk.END, printa("الوزن المخمّن:") + "\n")
+            output_area.insert(tk.END, printa("الوزن المرجّح:") + "\n")
             output_area.insert(tk.END, printa(max(statistic, key=statistic.get)) + "\n")
             
-            output_area.insert(tk.END, printa("كافّة التخمينات:") + "\n")
-            output_area.insert(tk.END, printa(str(statistic)) + "\n")
-            
+            output_area.insert(tk.END, printa("كافّة الترجيحات:") + "\n")
+            output_area.insert(tk.END, printa(helpers.format_buhoor_scores_dict(statistic)) + "\n")
+
+                # Extract keys and values
+            keys = [x.name for x in list(statistic.keys())]
+            values = list(statistic.values())
+
+            # Create bar chart
+            ax.clear()
+            ax.bar(keys, values, color='skyblue')
+            ax.set_title("Scores of common Buhoor")
+            ax.set_xlabel("Bah")
+            ax.set_ylabel("Score")
+            canvas.draw()
+
         except Exception as e:
             print(e)
             output_area.insert(tk.END, "Error: {}".format(e) + "\n")

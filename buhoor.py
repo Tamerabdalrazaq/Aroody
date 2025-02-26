@@ -12,7 +12,7 @@ class Tafaeela:
         return variant in self.variants
 
     def __repr__(self) -> str:
-        return self.name[::-1]
+        return self.name
 
     def __eq__(self, __o: object) -> bool:
         assert type(__o) == Tafaeela

@@ -108,21 +108,23 @@ def find_nesab_tashabuh(alshabeeh):
         if (ekhtelaf >= buhoor_tashabuh_dict[bahr]):
             return
         if shabeeh_pos == len(shabeeh):
+            residual = len(asl) - asl_pos
+            ekhtelaf = ekhtelaf + 2 * residual
             if (ekhtelaf < buhoor_tashabuh_dict[bahr]):
                 buhoor_tashabuh_dict[bahr] = ekhtelaf
             return
 
         if asl_pos >= len(asl):
-            tashabuh_rec(shabeeh, bahr, shabeeh_pos +
-                         1, asl_pos + 1, ekhtelaf + 1)
+            tashabuh_rec(shabeeh, bahr, len(shabeeh),
+                        asl_pos + 1, ekhtelaf + 2*(len(shabeeh) - shabeeh_pos))
         elif shabeeh[shabeeh_pos] == asl[asl_pos]:
             tashabuh_rec(shabeeh, bahr, shabeeh_pos +
                          1, asl_pos + 1, ekhtelaf)
         else:
             tashabuh_rec(shabeeh, bahr, shabeeh_pos + 1,
-                         asl_pos + 1, ekhtelaf + 1)  # Qalb
-            tashabuh_rec(shabeeh, bahr, shabeeh_pos +
-                         1, asl_pos, ekhtelaf + 1)  # Zeyada
+                         asl_pos + 1, ekhtelaf + 4)  # Qalb
+            tashabuh_rec(shabeeh, bahr, shabeeh_pos + 1,
+                         asl_pos, ekhtelaf + 4)  # Zeyada
             tashabuh_rec(shabeeh, bahr, shabeeh_pos,
                          asl_pos + 1, ekhtelaf + 1)  # Hathf
     buhoor_beats_str = [(bahr, bahr.beats_str) for bahr in BUHOOR]
