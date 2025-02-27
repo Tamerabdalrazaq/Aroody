@@ -1,4 +1,4 @@
-from buhoor import BUHOOR, TAFAEELAT
+from buhoor import Bahr, BUHOOR, TAFAEELAT
 import json
 import itertools
 
@@ -101,36 +101,37 @@ def generate_tone_approximations(beats, displacement):
 def find_nesab_tashabuh(alshabeeh):
     count = 0
 
-    def tashabuh_rec(shabeeh, bahr, shabeeh_pos, asl_pos, ekhtelaf):
+    def tashabuh_rec(shabeeh, bahr: Bahr, shabeeh_pos, asl_pos, ekhtelaf, punishment):
         nonlocal count  # Use nonlocal to refer to the count variable in the outer function
         count = count + 1
         asl = bahr.beats_str
-        if (ekhtelaf >= buhoor_tashabuh_dict[bahr]):
+        if (punishment >= buhoor_tashabuh_dict[bahr]):
             return
         if shabeeh_pos == len(shabeeh):
             residual = len(asl) - asl_pos
-            ekhtelaf = ekhtelaf + 2 * residual
-            if (ekhtelaf < buhoor_tashabuh_dict[bahr]):
-                buhoor_tashabuh_dict[bahr] = ekhtelaf
+            punishment = punishment + 2 * residual
+            if (punishment < buhoor_tashabuh_dict[bahr]):
+                buhoor_tashabuh_dict[bahr] = punishment
             return
 
+        curr_beat = shabeeh[shabeeh_pos]
         if asl_pos >= len(asl):
             tashabuh_rec(shabeeh, bahr, len(shabeeh),
-                        asl_pos + 1, ekhtelaf + 2*(len(shabeeh) - shabeeh_pos))
-        elif shabeeh[shabeeh_pos] == asl[asl_pos]:
+                        asl_pos + 1, ekhtelaf, punishment + 2*(len(shabeeh) - shabeeh_pos))
+        elif curr_beat == asl[asl_pos]:
             tashabuh_rec(shabeeh, bahr, shabeeh_pos +
-                         1, asl_pos + 1, ekhtelaf)
+                         1, asl_pos + 1, ekhtelaf, punishment)
         else:
-            tashabuh_rec(shabeeh, bahr, shabeeh_pos + 1,
-                         asl_pos + 1, ekhtelaf + 4)  # Qalb
-            tashabuh_rec(shabeeh, bahr, shabeeh_pos + 1,
-                         asl_pos, ekhtelaf + 4)  # Zeyada
-            tashabuh_rec(shabeeh, bahr, shabeeh_pos,
-                         asl_pos + 1, ekhtelaf + 1)  # Hathf
+            tashabuh_rec(shabeeh, bahr, shabeeh_pos, asl_pos + 1, ekhtelaf+1,
+                        punishment + bahr.get_zehaf_punishment(0, curr_beat, ekhtelaf))  # Hathf
+            tashabuh_rec(shabeeh, bahr,  shabeeh_pos + 1, asl_pos + 1, ekhtelaf+1,
+                         punishment + bahr.get_zehaf_punishment(1, curr_beat, ekhtelaf))  # Qalb
+            tashabuh_rec(shabeeh, bahr, shabeeh_pos + 1, asl_pos, ekhtelaf+1,
+                        punishment + bahr.get_zehaf_punishment(2, curr_beat, ekhtelaf))  # Zeyada
     buhoor_beats_str = [(bahr, bahr.beats_str) for bahr in BUHOOR]
     buhoor_tashabuh_dict = {bahr: float('inf') for bahr in BUHOOR}
     for pair in buhoor_beats_str:
         bahr = pair[0]
-        tashabuh_rec(alshabeeh, bahr, 0, 0, 0)
+        tashabuh_rec(alshabeeh, bahr, 0, 0, 0, 0)
     print(count)
     return {bahr: round(100 - (buhoor_tashabuh_dict[bahr]/min(len(alshabeeh), bahr.length)*100), 2) for bahr in BUHOOR}

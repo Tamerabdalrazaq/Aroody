@@ -1,6 +1,6 @@
+import math
 TAFAEELAT = []
 BUHOOR = []
-
 
 class Tafaeela:
     def __init__(self, name, main_beat, variants) -> None:
@@ -20,7 +20,9 @@ class Tafaeela:
 
 
 class Bahr:
-    def __init__(self, name, tafaaeel) -> None:
+    # zehaf_punishment points reduced for Hathf, Qalb, Zeyada
+    # allowed_zehaf_beat to be 0,1 or 2 (both) or -1 (none) in Hathf, Qalb, Zeyada
+    def __init__(self, name, tafaaeel, zehaf_punishment = (1, 4, 4), allowed_zehaf_beat = (2,2,2)):
         self.name = name
         self.tafaaeel = tafaaeel
         beats_str = ''
@@ -28,6 +30,8 @@ class Bahr:
             beats_str += tafaeela.main_beat
         self.beats_str = beats_str
         self.length = len(beats_str)
+        self.zehaf_punishment = zehaf_punishment
+        self.allowed_zehaf_beat = allowed_zehaf_beat
 
     def __repr__(self) -> str:
         return self.name
@@ -39,6 +43,15 @@ class Bahr:
             if tafaaeel[i] != self.tafaaeel[i]:
                 return False
         return partial or len(tafaaeel) == len(self.tafaaeel)
+    
+    # Get the punishment scored based on wheter the current Bahr allows the zehaf with this beat
+    #  and the total number of zehafat thus far. (increase as more zehafat are commited) 
+    def get_zehaf_punishment(self, zehaf, beat, zehafat_count):
+        if self.allowed_zehaf_beat[zehaf] in [beat, 2]:
+            punishment = 1*(self.zehaf_punishment[zehaf])
+        else:
+            punishment = 2*(self.zehaf_punishment[zehaf])
+        return  punishment + zehafat_count*0.5
 
 
 faaolon = Tafaeela('فعولن', '11010', ['11010', '1101', '1010', '101', '110'])
@@ -56,8 +69,10 @@ TAFAEELAT.extend([faaolon, faaolon_wafer, mafaaelun, mustafaelun,
                   faaelun, mutafaaelun, mufaaalatun])
 
 test = Bahr('test', (faaolon,))
+# taweel = Bahr('taweel', (faaolon, mafaaelun, faaolon, mafaaelun), (1, 3, 3), (0, -1, -1))
 taweel = Bahr('taweel', (faaolon, mafaaelun, faaolon, mafaaelun))
 baseet = Bahr('baseet', (mustafaelun, faaelun, mustafaelun, faaelun))
+# kamel = Bahr('kamel', (mutafaaelun, mutafaaelun, mutafaaelun), (3, 1, 2), (-1, 1, 2))
 kamel = Bahr('kamel', (mutafaaelun, mutafaaelun, mutafaaelun))
 wafer = Bahr('wafer', (mufaaalatun, mufaaalatun, faaolon_wafer))
 mutaqareb = Bahr('mutaqareb', (faaolon, faaolon, faaolon, faaolon))
