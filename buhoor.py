@@ -64,22 +64,29 @@ faaelun = Tafaeela('فاعلن', '10110', ['10110', '1110', '1010'])
 mutafaaelun = Tafaeela('متفاعلن', '1110110', ['1110110', '1010110'])
 mufaaalatun = Tafaeela('مفاعلتن', '1101110', [
                        '1101110', '1101010', '110101', '110110', '101110', '101010', '10110'])
+faaelatun = Tafaeela('فاعلاتن', '1011010', ['1011010', '111010', '101101', '11101'])
+mafaulatu = Tafaeela('مفعولات', '1010101', ['1010101', '101101', '11101'])
+
 
 TAFAEELAT.extend([faaolon, faaolon_wafer, mafaaelun, mustafaelun,
                   faaelun, mutafaaelun, mufaaalatun])
 
-test = Bahr('test', (faaolon,))
 # taweel = Bahr('taweel', (faaolon, mafaaelun, faaolon, mafaaelun), (1, 3, 3), (0, -1, -1))
-taweel = Bahr('taweel', (faaolon, mafaaelun, faaolon, mafaaelun))
-baseet = Bahr('baseet', (mustafaelun, faaelun, mustafaelun, faaelun))
+taweel = Bahr('الطويل', (faaolon, mafaaelun, faaolon, mafaaelun))
+baseet = Bahr('البسيط', (mustafaelun, faaelun, mustafaelun, faaelun))
+madeed = Bahr('المديد', (faaelatun, faaelun, faaelatun))
 # kamel = Bahr('kamel', (mutafaaelun, mutafaaelun, mutafaaelun), (3, 1, 2), (-1, 1, 2))
-kamel = Bahr('kamel', (mutafaaelun, mutafaaelun, mutafaaelun))
-wafer = Bahr('wafer', (mufaaalatun, mufaaalatun, faaolon_wafer))
-mutaqareb = Bahr('mutaqareb', (faaolon, faaolon, faaolon, faaolon))
-rujz = Bahr('rujz', (mustafaelun, mustafaelun, mustafaelun))
-hazaj = Bahr('hazaj', (mafaaelun, mafaaelun))
-mutadarak = Bahr('mutadarak', (faaelun, faaelun, faaelun, faaelun))
+kamel = Bahr('الكامل', (mutafaaelun, mutafaaelun, mutafaaelun))
+wafer = Bahr('الوافر', (mufaaalatun, mufaaalatun, faaolon_wafer))
+rujz = Bahr('الرجز', (mustafaelun, mustafaelun, mustafaelun))
+ramal = Bahr('الرمل', (faaelatun, faaelatun, faaelatun))
+sareea = Bahr('السريع', (mustafaelun, mustafaelun, faaelun))
+khafeef = Bahr('الخفيف', (faaelatun, mustafaelun, faaelatun))
+munsareh = Bahr('المنسرح', (mustafaelun, mafaulatu, mustafaelun))
+hazaj = Bahr('الهزج', (mafaaelun, mafaaelun))
+mutadarak = Bahr('المتدارك', (faaelun, faaelun, faaelun, faaelun))
+mutaqareb = Bahr('المتقارب', (faaolon, faaolon, faaolon, faaolon))
 
 # BUHOOR.extend([test])
-BUHOOR.extend([taweel, baseet, kamel, wafer,
-              rujz, hazaj, mutaqareb, mutadarak])
+BUHOOR.extend([taweel, baseet, madeed,  kamel, wafer,
+              rujz, ramal, sareea,  hazaj, khafeef, munsareh, mutaqareb, mutadarak])

@@ -6,6 +6,9 @@ from parts import Jumla
 from tester import test
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import arabic_reshaper
+from bidi.algorithm import get_display
+
 
 # Initialize the tester
 test()
@@ -47,7 +50,7 @@ def main_gui():
     output_area = scrolledtext.ScrolledText(root, height=10, width=70)
     output_area.pack(pady=10)
 
-    fig = Figure(figsize=(5, 3), dpi=100)
+    fig = Figure(figsize=(10, 3), dpi=100)
     ax = fig.add_subplot(111)
 
 
@@ -83,15 +86,22 @@ def main_gui():
             output_area.insert(tk.END, printa(helpers.format_buhoor_scores_dict(statistic)) + "\n")
 
                 # Extract keys and values
-            keys = [x.name for x in list(statistic.keys())]
+            keys = [get_display(arabic_reshaper.reshape(x.name)) for x in list(statistic.keys())]
             values = list(statistic.values())
 
             # Create bar chart
             ax.clear()
             ax.bar(keys, values, color='skyblue')
-            ax.set_title("Scores of common Buhoor")
-            ax.set_xlabel("Bah")
-            ax.set_ylabel("Score")
+
+            # Set title and labels with Arabic support
+            ax.set_title(get_display(arabic_reshaper.reshape("درجات البحور الشائعة")), fontname='Arial', fontsize=14)
+            ax.set_xlabel(get_display(arabic_reshaper.reshape("البحر")), fontname='Arial', fontsize=12)
+            ax.set_ylabel(get_display(arabic_reshaper.reshape("الدرجة")), fontname='Arial', fontsize=12)
+
+            # Apply Arabic font to x-ticks and y-ticks
+            # fig.xticks(fontsize=10, fontname='Arial')
+            # fig.yticks(fontsize=10, fontname='Arial')
+
             canvas.draw()
 
         except Exception as e:
