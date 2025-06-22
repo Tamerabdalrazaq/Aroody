@@ -167,14 +167,31 @@ class Kalema:
             else:
                 raise Exception("Invalid Input")
         return res
+    
+    def swap_objects(self, i, j):
+        self.objects[i], self.objects[j] = self.objects[j], self.objects[i]
 
     def arood_process(self):
+        self.prepare_shadda_position()
         self.process_shadda_madda()
         self.process_tanween()
         self.attach_harakat()
         self.trim_harakat()  # from here on only modify self.huroof not self.objects
         self.process_madd_wasat()
 
+    def prepare_shadda_position(self):
+        objects = self.objects
+        for i in range(len(objects)):
+            curr_obj = objects[i]
+            prev_obj = objects[i-1]
+             
+            if type(curr_obj) == Haraka and curr_obj.shadda:
+                if (type(prev_obj) == Haraka):
+                     self.swap_objects(i, i-1)
+                elif(type(prev_obj) == Harf):
+                    if(len(objects) == i+1 or type(objects[i+1]) == Harf):
+                        objects.insert(i+1, Haraka(TASHKEEL['FATHA']))
+            assert([type(objects[i+j]) for j in (-1,0)] == [Harf, Haraka], "Error in prepare_shadda_position")
     def process_shadda_madda(self):  # Mashduud = harf + shadda + haraka
         objects = self.objects
         res = []
