@@ -70,11 +70,12 @@ def find_bahr(beats, compositions, sequence=[]):
     n = len(beats)
     if n <= 2:
         return
-    for i in range(3, min(8, n+1)):
+    for i in range(3, min(10, n+1)): # 3 -> 9 is the range of len(tafeela) 
         left, right = beats[:i], beats[i:]
         compatiable = find_tafeela(left)
         for comp in compatiable:
             current_tafaaeel = sequence + [comp]
+            print(current_tafaaeel)
             if find_compatible_bahr(current_tafaaeel, partial=True):
                 find_bahr(right, compositions, current_tafaaeel)
 

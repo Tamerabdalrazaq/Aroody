@@ -66,7 +66,7 @@ mustafaelun = Tafaeela('مستفعلن', '1010110', [
                        '1010110', '110110', '101110', '101010'])
 faaelun = Tafaeela('فاعلن', '10110', ['10110', '1110', '1010'])
 mutafaaelun = Tafaeela('متفاعلن', '1110110', ['1110110', '1010110'])
-mutafaaelatun = Tafaeela('متفاعلاتن', '111011010', ['111011010', '101011010'])
+mutafaaelun_murafal= Tafaeela('متفاعلن مرفّلة', '1110110', ['1110110', '1010110' '111011010', '101011010'])
 mufaaalatun = Tafaeela('مفاعلتن', '1101110', [
                        '1101110', '1101010', '110101', '110110', '101110', '101010', '10110'])
 faaelatun = Tafaeela('فاعلاتن', '1011010', ['1011010', '111010', '101101', '11101'])
@@ -74,7 +74,7 @@ mafaulatu = Tafaeela('مفعولات', '1010101', ['1010101', '101101', '11101']
 
 
 TAFAEELAT.extend([faaolon, faaolon_wafer, mafaaelun, mustafaelun,
-                  faaelun, mutafaaelun, mufaaalatun])
+                  faaelun, mutafaaelun, mufaaalatun, mutafaaelun_murafal])
 
 # taweel = Bahr('taweel', (faaolon, mafaaelun, faaolon, mafaaelun), (1, 3, 3), (0, -1, -1))
 taweel = Bahr('الطويل', (faaolon, mafaaelun, faaolon, mafaaelun))
@@ -83,7 +83,7 @@ madeed = Bahr('المديد', (faaelatun, faaelun, faaelatun))
 # kamel = Bahr('kamel', (mutafaaelun, mutafaaelun, mutafaaelun), (3, 1, 2), (-1, 1, 2))
 kamel = Bahr('الكامل', (mutafaaelun, mutafaaelun, mutafaaelun))
 kamel_majzoo2_muraffal = \
-        Bahr("مجزوء الكامل المرفل", (mutafaaelun, mutafaaelatun))
+        Bahr("مجزوء الكامل المرفل", (mutafaaelun, mutafaaelun_murafal))
 wafer = Bahr('الوافر', (mufaaalatun, mufaaalatun, faaolon_wafer))
 rujz = Bahr('الرجز', (mustafaelun, mustafaelun, mustafaelun))
 ramal = Bahr('الرمل', (faaelatun, faaelatun, faaelatun))
