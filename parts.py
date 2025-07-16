@@ -55,6 +55,7 @@ TANWEEN_TO_TASHKEEL = {
     chr(int('0x64D', 16)):  chr(int('0x650', 16))
 }
 
+HAMZAT_QAT3_BEDAYA = "أإ"
 
 def starts_with_wasl(kalema):
     assert type(kalema) == Kalema
@@ -178,6 +179,7 @@ class Kalema:
         self.attach_harakat()
         self.trim_harakat()  # from here on only modify self.huroof not self.objects
         self.process_madd_wasat()
+        self.process_hamzat_qat3_bedaya()
 
     def prepare_shadda_position(self):
         objects = self.objects
@@ -245,7 +247,7 @@ class Kalema:
         daqqat = []
         for i in range(0, len(self.objects), 2):
             curr = self.objects[i]
-            assert type(curr) == Harf
+            assert type(curr) == Harf, 'error in process_daqqat'
             if curr.saken:
                 daqqat.append(0)
             else:
@@ -290,6 +292,11 @@ class Kalema:
                 prev_harf = huroof[i-1]
                 if prev_harf.saken:
                     prev_harf.set_type(Haraka(WEAKS_HARAKAT[harf.harf]))
+
+    def process_hamzat_qat3_bedaya(self):
+        huroof = self.huroof
+        if huroof[0].harf in HAMZAT_QAT3_BEDAYA:
+            huroof[0].set_type(Haraka(TASHKEEL['FATHA']))
 
 
 class Jumla():
