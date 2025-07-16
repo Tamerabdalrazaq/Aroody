@@ -133,5 +133,4 @@ def find_nesab_tashabuh(alshabeeh):
     for pair in buhoor_beats_str:
         bahr = pair[0]
         tashabuh_rec(alshabeeh, bahr, 0, 0, 0, 0)
-    print(count)
     return {bahr: round(100 - (buhoor_tashabuh_dict[bahr]/min(len(alshabeeh), bahr.length)*100), 2) for bahr in BUHOOR}

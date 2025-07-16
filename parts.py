@@ -191,7 +191,7 @@ class Kalema:
                 elif(type(prev_obj) == Harf):
                     if(len(objects) == i+1 or type(objects[i+1]) == Harf):
                         objects.insert(i+1, Haraka(TASHKEEL['FATHA']))
-            assert([type(objects[i+j]) for j in (-1,0)] == [Harf, Haraka], "Error in prepare_shadda_position")
+                assert([type(objects[i+j]) for j in (-1,0)] == [Harf, Haraka]), "Error in prepare_shadda_position"
     def process_shadda_madda(self):  # Mashduud = harf + shadda + haraka
         objects = self.objects
         res = []
@@ -228,11 +228,15 @@ class Kalema:
     def process_tanween(self):
         objects = self.objects
         last = objects[-1]
-        if (type(last) == Haraka and is_tanwin(last.haraka)):
-            # if last.haraka == TASHKEEL['FATHATAN']:
-
+        penultimate = objects[-2]
+        if (type(penultimate) == Haraka and penultimate.haraka == TASHKEEL['FATHATAN']):
+            penultimate.tanween_to_tashkeel()
+        elif(type(last) == Haraka and last.haraka == TASHKEEL['FATHATAN']):
+            self.objects.pop()
+        elif (type(last) == Haraka and is_tanwin(last.haraka)):
             last.tanween_to_tashkeel()
             res = objects[:]
+            assert type(res[-2]) == Harf, 'Error in process tanween'
             res[-2].set_type(last)
             res.append(Harf('ن', Haraka(SUKOON)))
             self.objects = res
@@ -290,7 +294,7 @@ class Kalema:
 
 class Jumla():
     def __init__(self, text):
-        self.text = text
+        self.text = text.strip()
         words = text.split(' ')
         words = [Kalema(word) for word in words if word != '']
         self.kalemat = words

@@ -32,7 +32,11 @@ class Bahr:
         self.length = len(beats_str)
         self.zehaf_punishment = zehaf_punishment
         self.allowed_zehaf_beat = allowed_zehaf_beat
+    def __hash__(self):
+        return hash(self.name)
 
+    def __eq__(self, other):
+        return self.name == other.name
     def __repr__(self) -> str:
         return self.name
 
@@ -62,6 +66,7 @@ mustafaelun = Tafaeela('مستفعلن', '1010110', [
                        '1010110', '110110', '101110', '101010'])
 faaelun = Tafaeela('فاعلن', '10110', ['10110', '1110', '1010'])
 mutafaaelun = Tafaeela('متفاعلن', '1110110', ['1110110', '1010110'])
+mutafaaelatun = Tafaeela('متفاعلاتن', '111011010', ['111011010', '101011010'])
 mufaaalatun = Tafaeela('مفاعلتن', '1101110', [
                        '1101110', '1101010', '110101', '110110', '101110', '101010', '10110'])
 faaelatun = Tafaeela('فاعلاتن', '1011010', ['1011010', '111010', '101101', '11101'])
@@ -77,6 +82,8 @@ baseet = Bahr('البسيط', (mustafaelun, faaelun, mustafaelun, faaelun))
 madeed = Bahr('المديد', (faaelatun, faaelun, faaelatun))
 # kamel = Bahr('kamel', (mutafaaelun, mutafaaelun, mutafaaelun), (3, 1, 2), (-1, 1, 2))
 kamel = Bahr('الكامل', (mutafaaelun, mutafaaelun, mutafaaelun))
+kamel_majzoo2_muraffal = \
+        Bahr("مجزوء الكامل المرفل", (mutafaaelun, mutafaaelatun))
 wafer = Bahr('الوافر', (mufaaalatun, mufaaalatun, faaolon_wafer))
 rujz = Bahr('الرجز', (mustafaelun, mustafaelun, mustafaelun))
 ramal = Bahr('الرمل', (faaelatun, faaelatun, faaelatun))
@@ -89,4 +96,4 @@ mutaqareb = Bahr('المتقارب', (faaolon, faaolon, faaolon, faaolon))
 
 # BUHOOR.extend([test])
 BUHOOR.extend([taweel, baseet, madeed,  kamel, wafer,
-              rujz, ramal, sareea,  hazaj, khafeef, munsareh, mutaqareb, mutadarak])
+              rujz, ramal, sareea,  hazaj, khafeef, munsareh, mutaqareb, mutadarak, kamel_majzoo2_muraffal])
