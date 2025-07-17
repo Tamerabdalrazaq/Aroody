@@ -76,6 +76,7 @@ def find_bahr(beats, compositions, sequence=[]):
         for comp in compatiable:
             current_tafaaeel = sequence + [comp]
             if find_compatible_bahr(current_tafaaeel, partial=True):
+                print(f'{left} -- {right} -- {current_tafaaeel}')
                 find_bahr(right, compositions, current_tafaaeel)
 
 

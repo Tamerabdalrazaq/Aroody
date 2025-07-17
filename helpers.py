@@ -17,3 +17,13 @@ def format_pretty_dict(data):
 def format_buhoor_scores_dict(d):
     formatted = {key.name: d[key] for key in d.keys()}
     return format_pretty_dict(formatted)
+
+
+def get_bahr_by_id(data, target_id):
+    for obj in data:
+        if obj.id == target_id:
+            return obj
+    return None  # if not found
+
+def pad_vector_n(vector, n):
+    return vector + [0] * (n - len(vector))

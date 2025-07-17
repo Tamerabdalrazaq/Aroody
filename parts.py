@@ -193,7 +193,7 @@ class Kalema:
                 elif(type(prev_obj) == Harf):
                     if(len(objects) == i+1 or type(objects[i+1]) == Harf):
                         objects.insert(i+1, Haraka(TASHKEEL['FATHA']))
-                assert([type(objects[i+j]) for j in (-1,0)] == [Harf, Haraka]), "Error in prepare_shadda_position"
+
     def process_shadda_madda(self):  # Mashduud = harf + shadda + haraka
         objects = self.objects
         res = []
@@ -287,8 +287,9 @@ class Kalema:
 
     def process_madd_wasat(self):
         huroof = self.huroof
-        for i, harf in enumerate(huroof):
-            if harf.harf in HUROOF_WAY and harf.saken and i > 0:
+        for i in range(1, len(huroof))[::-1]:
+            harf = huroof[i]
+            if  harf.harf in HUROOF_WAY and harf.saken:
                 prev_harf = huroof[i-1]
                 if prev_harf.saken:
                     prev_harf.set_type(Haraka(WEAKS_HARAKAT[harf.harf]))

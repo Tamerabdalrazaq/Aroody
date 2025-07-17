@@ -8,6 +8,12 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import arabic_reshaper
 from bidi.algorithm import get_display
+import joblib
+from buhoor import BUHOOR
+
+# Load the model from file
+# clf = joblib.load('decision_tree_model.joblib')
+clf = joblib.load('random_forest_model.joblib')
 
 
 # Initialize the tester
@@ -75,12 +81,16 @@ def main_gui():
             output_area.insert(tk.END, printa(helpers.beats_to_arood_writing(jumla.tone)) + "\n")
             
             determenistic, statistic = analyze_tone(jumla.tone)
+            ml = clf.predict([helpers.pad_vector_n(jumla.tone, 28)])[0]
             
             output_area.insert(tk.END, printa("الوزن المحدد:") + "\n")
             output_area.insert(tk.END, printa(determenistic) + "\n")
             
             output_area.insert(tk.END, printa("الوزن المرجّح:") + "\n")
             output_area.insert(tk.END, printa(max(statistic, key=statistic.get)) + "\n")
+
+            output_area.insert(tk.END, printa("ML") + "\n")
+            output_area.insert(tk.END, printa(helpers.get_bahr_by_id(BUHOOR, ml)) + "\n")
             
             output_area.insert(tk.END, printa("كافّة الترجيحات:") + "\n")
             output_area.insert(tk.END, printa(helpers.format_buhoor_scores_dict(statistic)) + "\n")

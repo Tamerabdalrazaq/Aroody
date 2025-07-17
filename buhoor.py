@@ -22,8 +22,11 @@ class Tafaeela:
 class Bahr:
     # zehaf_punishment points reduced for Hathf, Qalb, Zeyada
     # allowed_zehaf_beat to be 0,1 or 2 (both) or -1 (none) in Hathf, Qalb, Zeyada
+    id = 0
     def __init__(self, name, tafaaeel, zehaf_punishment = (1, 4, 4), allowed_zehaf_beat = (2,2,2)):
         self.name = name
+        self.id = Bahr.id
+        Bahr.id += 1
         self.tafaaeel = tafaaeel
         beats_str = ''
         for tafaeela in tafaaeel:
