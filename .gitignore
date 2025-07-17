@@ -1,9 +1,8 @@
-__pycache__
-poems.db
-populate_db.py
-log3.txt
-decision_tree_model.joblib
+__pycache__/
+*.db
+*.joblib
+*.json
+*.txt
+tf-env/
 ml_learn_data.py
-feed_ml.json
-random_forest_model.joblib
-tf-env
+populate_db.py
