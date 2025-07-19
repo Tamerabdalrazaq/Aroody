@@ -81,7 +81,8 @@ def main_gui():
             output_area.insert(tk.END, printa(helpers.beats_to_arood_writing(jumla.tone)) + "\n")
             
             determenistic, statistic = analyze_tone(jumla.tone)
-            ml = clf.predict([helpers.pad_vector_n(jumla.tone, 28)])[0]
+            ml = clf.predict([helpers.pad_vector_n(jumla.tone, 44)])[0]
+            probabilities = (clf.predict_proba([helpers.pad_vector_n(jumla.tone, 44)]))
             
             output_area.insert(tk.END, printa("الوزن المحدد:") + "\n")
             output_area.insert(tk.END, printa(determenistic) + "\n")
@@ -95,9 +96,11 @@ def main_gui():
             output_area.insert(tk.END, printa("كافّة الترجيحات:") + "\n")
             output_area.insert(tk.END, printa(helpers.format_buhoor_scores_dict(statistic)) + "\n")
 
+            print(clf.classes_)
                 # Extract keys and values
-            keys = [get_display(arabic_reshaper.reshape(x.name)) for x in list(statistic.keys())]
-            values = list(statistic.values())
+            keys = [get_display(arabic_reshaper.reshape(helpers.get_bahr_by_id(BUHOOR,x).name)) for x \
+                     in list(clf.classes_)]
+            values = list(probabilities[0])
 
             # Create bar chart
             ax.clear()

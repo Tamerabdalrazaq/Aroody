@@ -6,3 +6,5 @@ __pycache__/
 tf-env/
 ml_learn_data.py
 populate_db.py
+dataset/
+web/

@@ -4,7 +4,7 @@ import pyarabic.araby as araby
 from pyarabic.araby import is_tanwin, is_weak
 SHADDA = chr(int('0x651', 16))
 SUKOON = chr(int('0x652', 16))
-
+HARAKA_ANY = '_'
 
 HUROOF = {
     'ALEF': chr(int('0x627', 16)),
@@ -57,6 +57,10 @@ TANWEEN_TO_TASHKEEL = {
 
 HAMZAT_QAT3_BEDAYA = "أإ"
 
+COMMON_KALEMAT = {
+    
+}
+
 def starts_with_wasl(kalema):
     assert type(kalema) == Kalema
     assert type(kalema.objects[0]) == Harf
@@ -82,9 +86,10 @@ def handle_cutting_wasl(curr, prev):
 
 def test_objects_correctness(objects):
     for i, obj in enumerate(objects):
-        assert (type(obj) == Haraka or type(obj) == Harf)
+        assert (type(obj) == Haraka or type(obj) == Harf), "error in object correctness"
         assert (i == len(objects) - 1 or
-                type(objects[i+1]) == (Haraka if type(obj) == Harf else Harf))
+                type(objects[i+1]) == (Haraka if type(obj) == Harf else Harf)), \
+                    "error in object correctness"
 
 
 def untie_shadda(i, res, objects):
@@ -110,7 +115,7 @@ def untie_madda(curr_obj, res):
 
 class Haraka:
     def __init__(self, haraka):
-        assert haraka in araby.TASHKEEL
+        assert haraka in araby.TASHKEEL or haraka == HARAKA_ANY
         self.haraka = haraka
         self.shadda = haraka == SHADDA
         self.tanween = haraka in araby.TANWIN
@@ -144,7 +149,13 @@ class Harf:
 
     def __repr__(self) -> str:
         return self.harf
-
+    
+    def __eq__(self, value):
+        if type(value) == Harf:
+            return self.harf == value.harf
+        elif type(value) == str:
+            return len(value) == 1 and value == self.harf
+        raise Exception("Invalid comparison to Harf object")
 
 class Kalema:
     def __init__(self, text):
@@ -155,8 +166,21 @@ class Kalema:
         self.daqqat = []
         self.arood_process()
 
+    def __iter__(self):
+        return iter(self.huroof)
+
+
     def __repr__(self) -> str:
         return ''.join(self.text) + ': ' + ''.join(self.daqqat)
+
+    def __eq__(self, other):
+        if type(other) not in [str, Kalema]:
+            raise Exception('Invalid comparison between Kalema and object')
+        for i, ch in enumerate(other):
+            if ch != self.huroof[i]:
+                return False
+        return True
+
 
     def convert_to_objects(self):
         res = []
@@ -180,6 +204,7 @@ class Kalema:
         self.trim_harakat()  # from here on only modify self.huroof not self.objects
         self.process_madd_wasat()
         self.process_hamzat_qat3_bedaya()
+        self.process_awwal_mutaharrek()
 
     def prepare_shadda_position(self):
         objects = self.objects
@@ -299,6 +324,15 @@ class Kalema:
         if huroof[0].harf in HAMZAT_QAT3_BEDAYA:
             huroof[0].set_type(Haraka(TASHKEEL['FATHA']))
 
+    def process_awwal_mutaharrek(self):
+        first_harf = self.huroof[0]
+        if not first_harf.saken:
+            return
+        if first_harf.harf == HUROOF['HAMZAT_WASL']:
+            return
+        first_harf.saken = False
+        first_harf.haraka = HARAKA_ANY
+
 
 class Jumla():
     def __init__(self, text):
@@ -327,3 +361,12 @@ class Jumla():
 
     def __repr__(self):
         return self.text + '\n' + ''.join([str(i) for i in self.tone])
+
+
+
+"""
+تحسينات ممكنة:
+قائمة كلمات معروفة مع إيقاعها
+بداية كل كلمة تبدأ بمتحرّك! باستنثاء الكلمات الواصلة بألف الوصل
+
+"""
